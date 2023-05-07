@@ -1,8 +1,4 @@
 import pyxel
-import math
-import numpy
-import time
-import random
 
 
 class App:
@@ -20,17 +16,22 @@ class App:
         self.fighter_right.draw()
 
     def update(self):
-        if self.fighter_left.collision(self.fighter_right.x):
+        if not self.fighter_left.collision(self.fighter_right.x):
             if pyxel.btn(pyxel.KEY_D):
                 self.fighter_left.x += 1
             if pyxel.btn(pyxel.KEY_Q):
-                self.fighter_left.x -= 1
-            if pyxel.btn(pyxel.KEY_Z):
-                pass
-        if pyxel.btn(pyxel.KEY_LEFT):
-            self.fighter_right.x -= 1
-        if pyxel.btn(pyxel.KEY_RIGHT):
-            self.fighter_right.x += 1
+                self.fighter_left.x -= -1
+        else:
+            self.fighter_left.x -= 1
+
+        if not self.fighter_right.collision(self.fighter_left.x):
+            if pyxel.btn(pyxel.KEY_LEFT):
+                self.fighter_right.x -= 1
+            if pyxel.btn(pyxel.KEY_RIGHT):
+                self.fighter_right.x += 1
+        else:
+            self.fighter_left.x -= 1
+
 
 
 class Fighter:
@@ -47,10 +48,19 @@ class Fighter:
     def draw(self):
         pyxel.blt(self.x, self.y, 0, 128, 16, 16, 16, 0)
 
-    def collision(self, x):
-        if self.x < x or self.x > x + 16:
-            return False
+    def collision_left(self, x):
+        print(self.x)
+        print(x)
+        if self.x == x-16 or self.x == x+16:
+            print("test")
+            return True
 
+    def collision(self, x):
+        print(self.x)
+        print(x)
+        if self.x == x-16 or self.x == x+16:
+            print("test")
+            return True
 
 
 
